@@ -25,12 +25,12 @@ namespace EntityFramework
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<EntityFrameworkDbContext>(options => options.UseSqlServer(""));
+            services.AddDbContext<EntityFrameworkDbContext>(options => options.UseSqlServer("Server=FLUTTERSHY\\SQLEXPRESS;Database=EntityFrameworkDataBase;Trusted_Connection=True;"));
             services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -55,6 +55,8 @@ namespace EntityFramework
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+            var database = serviceProvider.GetService<EntityFrameworkDbContext>(); //Zwraca nasz¹ bazê
+            database.Database.EnsureCreated();//Potwierdzenie stworzenia.
         }
     }
 }
