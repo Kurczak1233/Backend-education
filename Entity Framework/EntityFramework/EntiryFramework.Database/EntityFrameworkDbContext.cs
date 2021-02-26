@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EntiryFramework.Database
 {
-    public class EntityFrameworkDbContext : IdentityDbContext
+    public class EntityFrameworkDbContext : IdentityDbContext<ApplicationUser>
     {
         public EntityFrameworkDbContext(DbContextOptions<EntityFrameworkDbContext> options) : base(options)
         {
@@ -11,7 +11,6 @@ namespace EntiryFramework.Database
         }
 
         public DbSet<Setting> Settings { get; set; }
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
     }
 }
