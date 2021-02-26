@@ -5,10 +5,13 @@ namespace EntiryFramework.Database
 {
     public class EntityFrameworkDbContext : IdentityDbContext
     {
-        public DbSet<Setting> Settings { get; set; }
-        public EntityFrameworkDbContext(DbContextOptions options) : base(options)
+        public EntityFrameworkDbContext(DbContextOptions<EntityFrameworkDbContext> options) : base(options)
         {
 
         }
+
+        public DbSet<Setting> Settings { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
     }
 }

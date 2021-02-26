@@ -25,7 +25,7 @@ namespace EntityFramework
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<EntityFrameworkDbContext>(options => options.UseSqlServer("Server=FLUTTERSHY\\SQLEXPRESS;Database=EntityFrameworkDataBase;Trusted_Connection=True;"));
+            services.AddDbContext<EntityFrameworkDbContext>(options => options.UseSqlServer("Server=FLUTTERSHY\\SQLEXPRESS;Database=EntityFrameworkDataBase;Trusted_Connection=True;", b => b.MigrationsAssembly("EntityFramework")));
             services.AddControllersWithViews();
         }
 
