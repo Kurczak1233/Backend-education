@@ -1,5 +1,6 @@
 ﻿using EntiryFramework.Database;
 using EntityFramework.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,12 +13,18 @@ namespace EntityFramework.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly EntityFrameworkDbContext _db; //PIERWSZA OPCJA LEPSZA!
-        public HomeController(EntityFrameworkDbContext db)
+        private readonly ILogger<HomeController> _logger;
+        private readonly EntityFrameworkDbContext _db;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        public HomeController(ILogger<HomeController> logger, EntityFrameworkDbContext db, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _db = db;
+            _logger = logger;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            //signInManager.SignInAsync(user,false,"Haslo") //Przykład użycia.
         }
-        private readonly ILogger<HomeController> _logger;
         //private readonly IServiceProvider _serviceProvider;
         //public HomeController(ILogger<HomeController> logger, IServiceProvider serviceProvider)
         //{
@@ -27,15 +34,23 @@ namespace EntityFramework.Controllers
 
         public async Task<IActionResult> Index()
         {
-
-            Setting setting = new Setting()
+            var user = new ApplicationUser()
             {
-                Name = "Michal",
-                Value = "Priceless"
+                FirstName = "Michał2",
+                LastName = "Kupczak1",
+                PhoneNumber = "5555555",
+                UserName = "Kuczak12333",
+                
             };
-
-            _db.Add(setting);
-            await _db.SaveChangesAsync();
+            var result = await _userManager.CreateAsync(user, "123456"); //Tutaj dodawany jest użytkownik do bazy i baza jest zapisywana.
+            if(result.Succeeded)
+            {
+                return View();
+            }
+            else
+            {
+                return Ok("Nie udało się stworzyć użytkownika");
+            }
             //var database = _serviceProvider.GetService(typeof(EntityFrameworkDbContext)) as EntityFrameworkDbContext;
             //var settingsTable = database.Settings;
             ////var newSettings = new Setting()
