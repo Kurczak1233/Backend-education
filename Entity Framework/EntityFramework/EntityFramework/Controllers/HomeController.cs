@@ -39,7 +39,6 @@ namespace EntityFramework.Controllers
         public IActionResult Index()
         {
             var setting = _ISettingsRepository.GetSettingByName("Michal");
-            setting.Value = "Black";
             var dataModelSetting = _settingMapper.Map(setting);
             dataModelSetting.Value = "Yellow";
             _ISettingsRepository.SaveChanges();
