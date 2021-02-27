@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EntityFramework.Migrations
+namespace EntiryFramework.Database.Migrations
 {
     [DbContext(typeof(EntityFrameworkDbContext))]
-    [Migration("20210226193238_AddTestPropToUsers")]
-    partial class AddTestPropToUsers
+    [Migration("20210227203615_InitialMigraiton")]
+    partial class InitialMigraiton
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,9 +70,6 @@ namespace EntityFramework.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TESTPROPERTY")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")

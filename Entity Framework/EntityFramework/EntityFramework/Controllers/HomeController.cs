@@ -76,8 +76,7 @@ namespace EntityFramework.Controllers
             ////settingsTable.Add(newSettings);
             //database.SaveChanges();
             
-        }testc
-
+        }
         public IActionResult Privacy()
         {
             return View();
