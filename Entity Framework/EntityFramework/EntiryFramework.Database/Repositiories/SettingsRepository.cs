@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EntiryFramework.Database.Repositiories.SettingsRepository
+namespace EntiryFramework.Database
 {
-    public  class SettingsRepository : BaseRepostirory<Setting>
+    public  class SettingsRepository : BaseRepostirory<Setting>, ISettingsRepository
     {
         protected override DbSet<Setting> DbSet => _db.Settings;
         public SettingsRepository(EntityFrameworkDbContext dbContext) : base(dbContext) { }

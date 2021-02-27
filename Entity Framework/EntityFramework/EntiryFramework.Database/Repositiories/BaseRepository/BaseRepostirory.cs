@@ -26,7 +26,7 @@ namespace EntiryFramework.Database.Repositiories.BaseRepository
 
         public void SaveChanges()
         {
-            _db.SaveChangesAsync();
+            _db.SaveChanges();
         }
     }
 }

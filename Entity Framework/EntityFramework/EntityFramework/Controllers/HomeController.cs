@@ -1,5 +1,4 @@
 ﻿using EntiryFramework.Database;
-using EntiryFramework.Database.Repositiories.SettingsRepository;
 using EntityFramework.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +13,14 @@ namespace EntityFramework.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ISettingsRepository _ISettingsRepository;
         private readonly ILogger<HomeController> _logger;
         private readonly EntityFrameworkDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public HomeController(ILogger<HomeController> logger, EntityFrameworkDbContext db, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public HomeController(ISettingsRepository settingsRepostiory, ILogger<HomeController> logger, EntityFrameworkDbContext db, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
+            _ISettingsRepository = settingsRepostiory;
             _db = db;
             _logger = logger;
             _userManager = userManager;
@@ -33,16 +34,15 @@ namespace EntityFramework.Controllers
         //    _serviceProvider = serviceProvider;
         //}
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var repository = new SettingsRepository(_db);
-            repository.UpdateSettings(new Setting
+            _ISettingsRepository.UpdateSettings(new Setting
             {
                 Name = "TextColor",
-                Value = "Black"
+                Value = "Red"
 
             });
-            var settings = repository.GetAllSettings();
+            var settings = _ISettingsRepository.GetAll();
             return Ok(settings);
             //var user = new ApplicationUser()
             //{
@@ -75,7 +75,6 @@ namespace EntityFramework.Controllers
             //settingsTable.Remove(firstBackGroundSettings);
             ////settingsTable.Add(newSettings);
             //database.SaveChanges();
-            return View();
             
         }
 

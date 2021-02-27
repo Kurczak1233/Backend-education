@@ -37,6 +37,7 @@ namespace EntityFramework
                     options.Password.RequireUppercase = false;
                     options.Password.RequireNonAlphanumeric = false;
             });
+            services.AddScoped<ISettingsRepository,SettingsRepository>(); //Add scoped czêsciowe dodanie implementacji interface'u ---> {} 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
