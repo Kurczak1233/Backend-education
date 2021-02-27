@@ -1,4 +1,5 @@
 ﻿using EntiryFramework.Database;
+using EntiryFramework.Database.Repositiories.SettingsRepository;
 using EntityFramework.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -34,23 +35,32 @@ namespace EntityFramework.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var user = new ApplicationUser()
+            var repository = new SettingsRepository(_db);
+            repository.UpdateSettings(new Setting
             {
-                FirstName = "Michał2",
-                LastName = "Kupczak1",
-                PhoneNumber = "5555555",
-                UserName = "Kuczak12333",
+                Name = "TextColor",
+                Value = "Black"
+
+            });
+            var settings = repository.GetAllSettings();
+            return Ok(settings);
+            //var user = new ApplicationUser()
+            //{
+            //    FirstName = "Michał2",
+            //    LastName = "Kupczak1",
+            //    PhoneNumber = "5555555",
+            //    UserName = "Kuczak12333",
                 
-            };
-            var result = await _userManager.CreateAsync(user, "123456"); //Tutaj dodawany jest użytkownik do bazy i baza jest zapisywana.
-            if(result.Succeeded)
-            {
-                return View();
-            }
-            else
-            {
-                return Ok("Nie udało się stworzyć użytkownika");
-            }
+            //};
+            //var result = await _userManager.CreateAsync(user, "123456"); //Tutaj dodawany jest użytkownik do bazy i baza jest zapisywana.
+            //if(result.Succeeded)
+            //{
+            //    return View();
+            //}
+            //else
+            //{
+            //    return Ok("Nie udało się stworzyć użytkownika");
+            //}
             //var database = _serviceProvider.GetService(typeof(EntityFrameworkDbContext)) as EntityFrameworkDbContext;
             //var settingsTable = database.Settings;
             ////var newSettings = new Setting()
