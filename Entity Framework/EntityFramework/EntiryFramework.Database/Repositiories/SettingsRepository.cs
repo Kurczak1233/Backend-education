@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EntiryFramework.Database
 {
-    public  class SettingsRepository : BaseRepostirory<Setting>, ISettingsRepository
+    public class SettingsRepository : BaseRepostirory<Setting>, ISettingsRepository
     {
         protected override DbSet<Setting> DbSet => _db.Settings;
         public SettingsRepository(EntityFrameworkDbContext dbContext) : base(dbContext) { }
