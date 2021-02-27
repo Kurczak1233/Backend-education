@@ -8,6 +8,7 @@ namespace EntiryFramework.Database
     {
         List<Setting> GetAll();
         public void UpdateSettings(Setting setting);
+        public Setting GetSettingByName(string name);
         void SaveChanges();
     }
 }

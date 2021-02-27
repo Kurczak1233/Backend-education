@@ -18,8 +18,10 @@ namespace EntityFramework.Controllers
         private readonly EntityFrameworkDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public HomeController(ISettingsRepository settingsRepostiory, ILogger<HomeController> logger, EntityFrameworkDbContext db, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly SettingMapper _settingMapper;
+        public HomeController(SettingMapper mapper, ISettingsRepository settingsRepostiory, ILogger<HomeController> logger, EntityFrameworkDbContext db, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
+            _settingMapper = mapper;
             _ISettingsRepository = settingsRepostiory;
             _db = db;
             _logger = logger;
@@ -36,12 +38,11 @@ namespace EntityFramework.Controllers
 
         public IActionResult Index()
         {
-            _ISettingsRepository.UpdateSettings(new Setting
-            {
-                Name = "TextColor",
-                Value = "Red"
-
-            });
+            var setting = _ISettingsRepository.GetSettingByName("Michal");
+            setting.Value = "Black";
+            var dataModelSetting = _settingMapper.Map(setting);
+            dataModelSetting.Value = "Yellow";
+            _ISettingsRepository.SaveChanges();
             var settings = _ISettingsRepository.GetAll();
             return Ok(settings);
             //var user = new ApplicationUser()

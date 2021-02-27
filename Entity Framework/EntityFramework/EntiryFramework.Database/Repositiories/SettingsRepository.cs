@@ -28,5 +28,11 @@ namespace EntiryFramework.Database
                 return;
             }
         }
+
+        public Setting GetSettingByName(string name)
+        {
+            var foundSetting = DbSet.Where(c => c.Name == name).FirstOrDefault();
+            return foundSetting;
+        }
     }
 }
