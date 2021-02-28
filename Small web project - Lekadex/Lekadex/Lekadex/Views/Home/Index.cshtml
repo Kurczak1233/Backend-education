@@ -1,8 +1,36 @@
-﻿@{
+﻿@model List<DoctorViewModel> 
+@{
     ViewData["Title"] = "Home Page";
 }
 
+<input type="text" />
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">
+                    #
+                </th>
+                <th scope="col">
+                    Name
+                </th>
+                <th scope="col">
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var doctor in Model)
+            {
+                <tr>
+                    <th scope="row">
+                        @(Model.IndexOf(doctor) + 1)
+                    </th>
+                    <td>@doctor.Name</td>
+                    <td>View | Delete</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

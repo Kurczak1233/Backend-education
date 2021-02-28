@@ -11,16 +11,125 @@ namespace Lekadex.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        public List<DoctorViewModel> Doctors => new List<DoctorViewModel>
         {
-            _logger = logger;
-        }
+                new DoctorViewModel
+                {
+                    Name = "Patryk",
+                    Prescriptions = new List<PrescriptionViewModel>
+                    {
+                        new PrescriptionViewModel
+                        {
+                            Name = "Recepta 1",
+                            Medicines = new List<MedicineViewModel>
+                            {
+                                new MedicineViewModel
+                                {
+                                    Name = "Magnez",
+                                },
+                                new MedicineViewModel
+                                {
+                                    Name = "Aspiryna",
+                                }
+                            }
+                        },
+                        new PrescriptionViewModel
+                        {
+                            Name = "Recepta 2",
+                            Medicines = new List<MedicineViewModel>
+                            {
+                                new MedicineViewModel
+                                {
+                                    Name = "Lek inny",
+                                },
+                                new MedicineViewModel
+                                {
+                                    Name = "Cokolwiek",
+                                }
+                            }
+                        }
+                    }
 
+                },
+                new DoctorViewModel
+                {
+                    Name = "Kazimierz",
+                    Prescriptions = new List<PrescriptionViewModel>
+                    {
+                        new PrescriptionViewModel
+                        {
+                            Name = "Recepta 1",
+                            Medicines = new List<MedicineViewModel>
+                            {
+                                new MedicineViewModel
+                                {
+                                    Name = "Magnez",
+                                },
+                                new MedicineViewModel
+                                {
+                                    Name = "Aspiryna",
+                                }
+                            }
+                        },
+                        new PrescriptionViewModel
+                        {
+                            Name = "Recepta 2",
+                            Medicines = new List<MedicineViewModel>
+                            {
+                                new MedicineViewModel
+                                {
+                                    Name = "Lek inny",
+                                },
+                                new MedicineViewModel
+                                {
+                                    Name = "Cokolwiek",
+                                }
+                            }
+                        }
+                    }
+                },
+                new DoctorViewModel
+                {
+                    Name = "Zbigniew",
+                    Prescriptions = new List<PrescriptionViewModel>
+                    {
+                        new PrescriptionViewModel
+                        {
+                            Name = "Recepta 1",
+                            Medicines = new List<MedicineViewModel>
+                            {
+                                new MedicineViewModel
+                                {
+                                    Name = "Magnez",
+                                },
+                                new MedicineViewModel
+                                {
+                                    Name = "Aspiryna",
+                                }
+                            }
+                        },
+                        new PrescriptionViewModel
+                        {
+                            Name = "Recepta 2",
+                            Medicines = new List<MedicineViewModel>
+                            {
+                                new MedicineViewModel
+                                {
+                                    Name = "Lek inny",
+                                },
+                                new MedicineViewModel
+                                {
+                                    Name = "Cokolwiek",
+                                }
+                            }
+                        }
+                    }
+                }
+
+        };
         public IActionResult Index()
         {
-            return View();
+            return View(Doctors);
         }
 
         public IActionResult Privacy()

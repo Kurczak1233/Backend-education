@@ -1,8 +1,42 @@
-﻿@{
+﻿@model PrescriptionViewModel 
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
+<div>
+    Prescription's' data:
+    Name: @Model.Name
+</div>
+
+<input type="text" />
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">
+                    #
+                </th>
+                <th scope="col">
+                    Name
+                </th>
+                <th scope="col">
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var medicine in Model.Medicines)
+            {
+                <tr>
+                    <th scope="row">
+                        @(Model.Medicines.IndexOf(medicine) + 1)
+                    </th>
+                    <td>@medicine.Name</td>
+                    <td> Delete</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
