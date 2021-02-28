@@ -34,5 +34,16 @@ namespace Lekadex.Controllers
         {
             return View();
         }
+
+        public IActionResult Add()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Add(PrescriptionViewModel prescriptionVM)
+        {
+            TEMPORARYStaticDatabase.Doctors.ElementAt(IndexOfDoctor).Prescriptions.Add(prescriptionVM);
+            return RedirectToAction("Index");
+        }
     }
 }

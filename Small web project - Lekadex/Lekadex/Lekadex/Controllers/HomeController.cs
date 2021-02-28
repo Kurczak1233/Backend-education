@@ -29,5 +29,16 @@ namespace Lekadex.Controllers
         {
             return View(TEMPORARYStaticDatabase.Doctors);
         }
+
+        public IActionResult Add()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Add(DoctorViewModel DoctorVM)
+        {
+            TEMPORARYStaticDatabase.Doctors.Add(DoctorVM);
+            return RedirectToAction("Index");
+        }
     }
 }

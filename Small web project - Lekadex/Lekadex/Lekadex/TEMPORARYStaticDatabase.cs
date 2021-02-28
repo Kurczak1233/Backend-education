@@ -7,7 +7,7 @@ namespace Lekadex
 {
     public static class TEMPORARYStaticDatabase
     {
-        public static List<DoctorViewModel> Doctors => new List<DoctorViewModel>
+        public static List<DoctorViewModel> Doctors { get; set; } = new List<DoctorViewModel>
         {
                 new DoctorViewModel
                 {

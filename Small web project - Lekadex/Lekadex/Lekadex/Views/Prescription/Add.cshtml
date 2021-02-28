@@ -1,0 +1,10 @@
+﻿@model PrescriptionViewModel
+@{
+    ViewData["Title"] = "Prescription Page";
+}
+
+
+<form asp-controller="Prescription" asp-action="Add">
+    <input type="text" name="Name" />
+    <button type="submit" class="btn btn-success">Filter</button>
+</form>

@@ -1,0 +1,10 @@
+﻿@model DoctorViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<form asp-controller="Home" asp-action="Add">
+    <input type="text" name="Name" />
+    <button type="submit" class="btn btn-success">Add</button>
+</form>
