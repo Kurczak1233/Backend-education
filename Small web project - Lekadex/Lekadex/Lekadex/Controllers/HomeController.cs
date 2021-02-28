@@ -13,13 +13,17 @@ namespace Lekadex.Controllers
     {
 
 
-        public IActionResult Index()
+        public IActionResult Index(string filterString)
         {
-            return View(TEMPORARYStaticDatabase.Doctors);
+            if (string.IsNullOrEmpty(filterString))
+            {
+                return View(TEMPORARYStaticDatabase.Doctors);
+            }
+            return View(TEMPORARYStaticDatabase.Doctors.Where(x=>x.Name.Contains(filterString)).ToList());
         }
         public IActionResult View(int indexOfDoctor)
         {
-            return RedirectToAction("Index", "Prescription", TEMPORARYStaticDatabase.Doctors[indexOfDoctor]);
+            return RedirectToAction("Index", "Prescription", new { indexOfDoctor = indexOfDoctor });
         }
         public IActionResult Delete(int indexOfDoctor)
         {

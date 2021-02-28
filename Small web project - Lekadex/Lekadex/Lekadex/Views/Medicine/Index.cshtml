@@ -1,4 +1,4 @@
-﻿@model PrescriptionViewModel 
+﻿@model PrescriptionViewModel
 
 @{
     ViewData["Title"] = "Home Page";
@@ -9,7 +9,11 @@
     Name: @Model.Name
 </div>
 
-<input type="text" />
+
+<form asp-controller="Medicine" asp-action="Index">
+    <input type="text" name="FilterString" />
+    <button type="submit" class="btn btn-success">Filter</button>
+</form>
 
 <div class="text-center">
     <table class="table">
@@ -29,15 +33,15 @@
         <tbody>
             @foreach (var medicine in Model.Medicines)
             {
-            <tr>
-                <th scope="row">
-                    @(Model.Medicines.IndexOf(medicine) + 1)
-                </th>
-                <td>@medicine.Name</td>
-                <td>
-                    <a class="text-dark" asp-area="" asp-controller="Medicine" asp-action="Delete"  asp-route-indexOfMedicine="@Model.Medicines.IndexOf(medicine)">Delete</a>
-                </td>
-            </tr>
+                <tr>
+                    <th scope="row">
+                        @(Model.Medicines.IndexOf(medicine) + 1)
+                    </th>
+                    <td>@medicine.Name</td>
+                    <td>
+                        <a class="text-dark" asp-area="" asp-controller="Medicine" asp-action="Delete" asp-route-indexOfMedicine="@Model.Medicines.IndexOf(medicine)">Delete</a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

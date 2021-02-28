@@ -18,9 +18,17 @@ namespace Lekadex.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index(int indexOfDoctor, int indexOfPrescription)
+        public IActionResult Index(int indexOfDoctor, int indexOfPrescription, string filterString)
         {
-            return View(TEMPORARYStaticDatabase.Doctors.ElementAt(indexOfDoctor).Prescriptions.ElementAt(indexOfPrescription));
+            if (string.IsNullOrEmpty(filterString))
+            {
+                return View(TEMPORARYStaticDatabase.Doctors.ElementAt(indexOfDoctor).Prescriptions.ElementAt(indexOfPrescription));
+            }
+            return View(new PrescriptionViewModel
+            {
+                Name = TEMPORARYStaticDatabase.Doctors.ElementAt(indexOfDoctor).Prescriptions.ElementAt(indexOfPrescription).Name,
+                Medicines = TEMPORARYStaticDatabase.Doctors.ElementAt(indexOfDoctor).Prescriptions.ElementAt(indexOfPrescription).Medicines.Where(c => c.Name.Contains(filterString)).ToList()
+            });
         }
 
         public IActionResult Delete(int indexOfMedicine)
