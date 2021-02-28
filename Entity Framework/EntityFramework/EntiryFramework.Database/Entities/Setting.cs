@@ -10,7 +10,12 @@ namespace EntiryFramework.Database
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string Name{ get; set; }
         public string Value { get; set; }
+
+        [ForeignKey("User")]
+        public string UserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }
