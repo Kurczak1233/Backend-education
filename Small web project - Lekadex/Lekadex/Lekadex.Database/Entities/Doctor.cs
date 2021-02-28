@@ -4,10 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lekadex.Database
 {
-    public class Doctor
+    public class Doctor : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
+
         [Required]
         public string FirstName { get; set; }
         public string LastName { get; set; }

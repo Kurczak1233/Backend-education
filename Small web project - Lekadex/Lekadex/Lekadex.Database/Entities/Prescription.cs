@@ -5,10 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lekadex.Database
 {
-    public class Prescription
+    public class Prescription : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
+
         [Required]
         public string Name { get; set; }
         public DateTime CreatedDate { get; set; }
