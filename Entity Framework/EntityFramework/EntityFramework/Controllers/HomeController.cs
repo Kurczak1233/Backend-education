@@ -38,19 +38,18 @@ namespace EntityFramework.Controllers
 
         public IActionResult Index()
         {
-            var setting = _ISettingsRepository.GetSettingByName("Michal");
-            var dataModelSetting = _settingMapper.Map(setting);
-            dataModelSetting.Value = "Yellow";
-            _ISettingsRepository.SaveChanges();
-            var settings = _ISettingsRepository.GetAll();
-            return Ok(settings);
+            //var setting = _ISettingsRepository.GetSettingByName("Michal");
+            //var dataModelSetting = _settingMapper.Map(setting);
+            //dataModelSetting.Value = "Yellow";
+            //_ISettingsRepository.SaveChanges();
+            //var settings = _ISettingsRepository.GetAll();
             //var user = new ApplicationUser()
             //{
             //    FirstName = "Michał2",
             //    LastName = "Kupczak1",
             //    PhoneNumber = "5555555",
             //    UserName = "Kuczak12333",
-                
+
             //};
             //var result = await _userManager.CreateAsync(user, "123456"); //Tutaj dodawany jest użytkownik do bazy i baza jest zapisywana.
             //if(result.Succeeded)
@@ -75,6 +74,8 @@ namespace EntityFramework.Controllers
             //settingsTable.Remove(firstBackGroundSettings);
             ////settingsTable.Add(newSettings);
             //database.SaveChanges();
+
+            return View();
             
         }
         public IActionResult Privacy()

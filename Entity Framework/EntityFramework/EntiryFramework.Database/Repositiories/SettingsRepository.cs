@@ -34,5 +34,13 @@ namespace EntiryFramework.Database
             var foundSetting = DbSet.Where(c => c.Name == name).FirstOrDefault();
             return foundSetting;
         }
+
+        public void DoSth()
+        {
+            var foundSth = DbSet.Where(x => x.Id > 3).Select(x=>x.Value); //Select wybiera tylko kolumnę nie cała encję.
+            var foundSth2 = DbSet.Where(x => x.Id > 3).Select(x => new { 
+            NameXXX = x.Name,
+            ValueXXX = x.Value}); //Obiekt anonimowy
+        }
     }
 }
