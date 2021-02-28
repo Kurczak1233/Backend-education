@@ -28,7 +28,8 @@
                         @(Model.IndexOf(doctor) + 1)
                     </th>
                     <td>@doctor.Name</td>
-                    <td>View | Delete</td>
+                    <td><a class="text-dark" asp-area="" asp-controller="Home" asp-action="View" asp-route-indexOfDoctor="@Model.IndexOf(doctor)">View</a> |
+                    <a class="text-dark" asp-area="" asp-controller="Home" asp-action="Delete"  asp-route-indexOfDoctor="@Model.IndexOf(doctor)">Delete</a></td>
                 </tr>
             }
         </tbody>

@@ -29,13 +29,16 @@
         <tbody>
             @foreach (var prescription in Model.Prescriptions)
             {
-                <tr>
-                    <th scope="row">
-                        @(Model.Prescriptions.IndexOf(prescription) + 1)
-                    </th>
-                    <td>@prescription.Name</td>
-                    <td>View | Delete</td>
-                </tr>
+            <tr>
+                <th scope="row">
+                    @(Model.Prescriptions.IndexOf(prescription) + 1)
+                </th>
+                <td>@prescription.Name</td>
+                <td>
+                    <a class="text-dark" asp-area="" asp-controller="Prescription" asp-action="View" asp-route-indexOfPrescription="@Model.Prescriptions.IndexOf(prescription)">View</a> |
+                    <a class="text-dark" asp-area="" asp-controller="Prescription" asp-action="Delete" asp-route-indexOfPrescription="@Model.Prescriptions.IndexOf(prescription)">Delete</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

@@ -18,20 +18,14 @@ namespace Lekadex.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int indexOfDoctor, int indexOfPrescription)
         {
-            return View();
+            return View(TEMPORARYStaticDatabase.Doctors.ElementAt(indexOfDoctor).Prescriptions.ElementAt(indexOfPrescription));
         }
 
-        public IActionResult Privacy()
+        public IActionResult Delete(int indexOfMedicine)
         {
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

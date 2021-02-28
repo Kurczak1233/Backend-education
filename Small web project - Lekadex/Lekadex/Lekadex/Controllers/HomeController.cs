@@ -11,136 +11,19 @@ namespace Lekadex.Controllers
 {
     public class HomeController : Controller
     {
-        public List<DoctorViewModel> Doctors => new List<DoctorViewModel>
-        {
-                new DoctorViewModel
-                {
-                    Name = "Patryk",
-                    Prescriptions = new List<PrescriptionViewModel>
-                    {
-                        new PrescriptionViewModel
-                        {
-                            Name = "Recepta 1",
-                            Medicines = new List<MedicineViewModel>
-                            {
-                                new MedicineViewModel
-                                {
-                                    Name = "Magnez",
-                                },
-                                new MedicineViewModel
-                                {
-                                    Name = "Aspiryna",
-                                }
-                            }
-                        },
-                        new PrescriptionViewModel
-                        {
-                            Name = "Recepta 2",
-                            Medicines = new List<MedicineViewModel>
-                            {
-                                new MedicineViewModel
-                                {
-                                    Name = "Lek inny",
-                                },
-                                new MedicineViewModel
-                                {
-                                    Name = "Cokolwiek",
-                                }
-                            }
-                        }
-                    }
 
-                },
-                new DoctorViewModel
-                {
-                    Name = "Kazimierz",
-                    Prescriptions = new List<PrescriptionViewModel>
-                    {
-                        new PrescriptionViewModel
-                        {
-                            Name = "Recepta 1",
-                            Medicines = new List<MedicineViewModel>
-                            {
-                                new MedicineViewModel
-                                {
-                                    Name = "Magnez",
-                                },
-                                new MedicineViewModel
-                                {
-                                    Name = "Aspiryna",
-                                }
-                            }
-                        },
-                        new PrescriptionViewModel
-                        {
-                            Name = "Recepta 2",
-                            Medicines = new List<MedicineViewModel>
-                            {
-                                new MedicineViewModel
-                                {
-                                    Name = "Lek inny",
-                                },
-                                new MedicineViewModel
-                                {
-                                    Name = "Cokolwiek",
-                                }
-                            }
-                        }
-                    }
-                },
-                new DoctorViewModel
-                {
-                    Name = "Zbigniew",
-                    Prescriptions = new List<PrescriptionViewModel>
-                    {
-                        new PrescriptionViewModel
-                        {
-                            Name = "Recepta 1",
-                            Medicines = new List<MedicineViewModel>
-                            {
-                                new MedicineViewModel
-                                {
-                                    Name = "Magnez",
-                                },
-                                new MedicineViewModel
-                                {
-                                    Name = "Aspiryna",
-                                }
-                            }
-                        },
-                        new PrescriptionViewModel
-                        {
-                            Name = "Recepta 2",
-                            Medicines = new List<MedicineViewModel>
-                            {
-                                new MedicineViewModel
-                                {
-                                    Name = "Lek inny",
-                                },
-                                new MedicineViewModel
-                                {
-                                    Name = "Cokolwiek",
-                                }
-                            }
-                        }
-                    }
-                }
 
-        };
         public IActionResult Index()
         {
-            return View(Doctors);
+            return View(TEMPORARYStaticDatabase.Doctors);
         }
-
-        public IActionResult Privacy()
+        public IActionResult View(int indexOfDoctor)
         {
-            return View();
+            return RedirectToAction("Index", "Prescription", TEMPORARYStaticDatabase.Doctors[indexOfDoctor]);
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Delete(int indexOfDoctor)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(TEMPORARYStaticDatabase.Doctors);
         }
     }
 }
