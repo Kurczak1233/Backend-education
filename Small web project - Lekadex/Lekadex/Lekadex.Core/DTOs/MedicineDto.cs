@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Lekadex.Core.DTOs
 {
-    class MedicineDto
+    public class MedicineDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -15,6 +15,7 @@ namespace Lekadex.Core.DTOs
         public string ActiveSubstance { get; set; }
         public decimal Weight { get; set; }
         public decimal Price { get; set; }
+        public decimal PriceInTotal { get; set; }
         public int Amount { get; set; }
         public DateTime ExpirationDate { get; set; }
         public  PrescriptionDto Prescription { get; set; }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Lekadex.Core.DTOs
 {
-    class PrescriptionDto
+    public class PrescriptionDto
     {
 
         public int Id { get; set; }
