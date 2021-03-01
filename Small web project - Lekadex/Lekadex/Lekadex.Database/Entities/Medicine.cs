@@ -14,7 +14,6 @@ namespace Lekadex.Database
         public decimal Weight { get; set; }
         public decimal Price { get; set; }
         public int Amount { get; set; }
-       
         public DateTime ExpirationDate { get; set; }
 
         [ForeignKey("Prescription")]
