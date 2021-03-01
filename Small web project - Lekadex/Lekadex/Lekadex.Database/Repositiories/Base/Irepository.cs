@@ -1,9 +1,9 @@
 ﻿namespace Lekadex.Database
 {
-    public interface Irepository<Entity> where Entity : BaseEntity
+    public interface IRepository<Entity> where Entity : BaseEntity
     {
-        void AddNew(Entity doctor);
+        void AddNew(Entity entity);
 
-        bool Delete(Entity doctor);
+        bool Delete(Entity entity);
     }
 }
