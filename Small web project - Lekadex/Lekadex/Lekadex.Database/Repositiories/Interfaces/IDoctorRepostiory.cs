@@ -2,7 +2,7 @@
 
 namespace Lekadex.Database
 {
-    public interface IDoctorRepostiory : Irepository<Doctor>
+    public interface IDoctorRepostiory : IRepository<Doctor>
     {
         IEnumerable<Doctor> GetAllDoctors();
     }

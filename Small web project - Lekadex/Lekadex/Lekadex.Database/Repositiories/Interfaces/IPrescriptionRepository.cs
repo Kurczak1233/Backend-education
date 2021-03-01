@@ -2,7 +2,7 @@
 
 namespace Lekadex.Database
 {
-    public interface IPrescriptionRepository : Irepository<Prescription>
+    public interface IPrescriptionRepository : IRepository<Prescription>
     {
         IEnumerable<Prescription> GetAllPrescriptions();
     }

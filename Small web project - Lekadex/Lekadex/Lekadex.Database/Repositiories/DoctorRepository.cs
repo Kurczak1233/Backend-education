@@ -12,7 +12,7 @@ namespace Lekadex.Database
         {
 
         }
-        public IEnumerable<Doctor> GetAllPrescriptions()
+        public IEnumerable<Doctor> GetAllDoctors()
         {
             //Filtrowanie wyżej (db)
             return DbSet.Include(x => x.PresiptionsList).ThenInclude(x=>x.MedicinesList).Select(x => x); //INCLUDE DODAJE LEKI DO PRESCRIPTION!
