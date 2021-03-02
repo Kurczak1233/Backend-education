@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lekadex.Core.Mappers;
+using Lekadex.Core;
 
 namespace Lekadex
 {
@@ -27,9 +29,14 @@ namespace Lekadex
         {
             services.AddControllersWithViews();
             services.AddDbContext<LekadexAppDbContext>(options => options.UseSqlServer("Server=FLUTTERSHY\\SQLEXPRESS;Database=LekadexDataBase;Trusted_Connection=True;"));
-            services.AddTransient<IDoctorRepostiory, DoctorRepository>();
+            services.AddTransient<IDoctorRepostiory, DoctorRepository>(); //Dodajemy do dependecy injection
             services.AddTransient<IPrescriptionRepository, PrescriptionRepository>();
             services.AddTransient<IMedicineRepository, MedicineRepository>();
+            //Dodajemy do dependcy injection
+            services.AddTransient<DoctorsMapper>();
+            services.AddTransient<IDoctorManager, DoctorManager>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

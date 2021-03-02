@@ -7,7 +7,8 @@ using AutoMapper;
 
 namespace Lekadex.Core
 {
-    public class DoctorManager
+
+    public class DoctorManager : IDoctorManager
     {
         private readonly IDoctorRepostiory _DoctorRepostiory;
         private readonly IMedicineRepository _MedicineRepostiory;
