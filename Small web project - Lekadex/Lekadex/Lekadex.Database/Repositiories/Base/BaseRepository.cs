@@ -8,7 +8,7 @@ namespace Lekadex.Database
 {
 
 
-    public abstract class BaseRepostirory<Entity> where Entity : BaseEntity
+    public abstract class BaseRepostirory<Entity> : IRepository<Entity> where Entity : BaseEntity
     {
         protected LekadexAppDbContext _db;
         protected abstract DbSet<Entity> DbSet { get; }

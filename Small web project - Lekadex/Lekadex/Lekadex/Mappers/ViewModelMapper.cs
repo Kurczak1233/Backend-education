@@ -23,22 +23,22 @@ namespace Lekadex
 
         #region Medicine Mapper
         public MedicineViewModel Map(MedicineDto medicine) => _Mapper.Map<MedicineViewModel>(medicine);
-        public IEnumerable<MedicineViewModel> Map(IEnumerable<MedicineDto> medicines) => _Mapper.Map<IEnumerable<MedicineViewModel>>(medicines);
+        public List<MedicineViewModel> Map(List<MedicineDto> medicines) => _Mapper.Map<List<MedicineViewModel>>(medicines);
         public MedicineDto Map(MedicineViewModel medicine) => _Mapper.Map<MedicineDto>(medicine);
-        public IEnumerable<MedicineDto> Map(IEnumerable<MedicineViewModel> medicines) => _Mapper.Map<IEnumerable<MedicineDto>>(medicines);
+        public List<MedicineDto> Map(List<MedicineViewModel> medicines) => _Mapper.Map<List<MedicineDto>>(medicines);
         #endregion
         #region Doctor Mapper
         public DoctorViewModel Map(DoctorDto doctor) => _Mapper.Map<DoctorViewModel>(doctor);
-        public IEnumerable<DoctorViewModel> Map(IEnumerable<DoctorDto> doctors) => _Mapper.Map<IEnumerable<DoctorViewModel>>(doctors);
+        public List<DoctorViewModel> Map(List<DoctorDto> doctors) => _Mapper.Map<List<DoctorViewModel>>(doctors);
         public DoctorDto Map(DoctorViewModel doctor) => _Mapper.Map<DoctorDto>(doctor);
-        public IEnumerable<DoctorDto> Map(IEnumerable<DoctorViewModel> doctors) => _Mapper.Map<IEnumerable<DoctorDto>>(doctors);
+        public List<DoctorDto> Map(List<DoctorViewModel> doctors) => _Mapper.Map<List<DoctorDto>>(doctors);
         #endregion
         #region Prescription Mapper
 
         public PrescriptionViewModel Map(PrescriptionDto prescription) => _Mapper.Map<PrescriptionViewModel>(prescription);
-        public IEnumerable<PrescriptionViewModel> Map(IEnumerable<PrescriptionDto> prescriptions) => _Mapper.Map<IEnumerable<PrescriptionViewModel>>(prescriptions);
+        public List<PrescriptionViewModel> Map(List<PrescriptionDto> prescriptions) => _Mapper.Map<List<PrescriptionViewModel>>(prescriptions);
         public PrescriptionDto Map(PrescriptionViewModel prescription) => _Mapper.Map<PrescriptionDto>(prescription);
-        public IEnumerable<PrescriptionDto> Map(IEnumerable<PrescriptionViewModel> prescriptions) => _Mapper.Map<IEnumerable<PrescriptionDto>>(prescriptions);
+        public List<PrescriptionDto> Map(List<PrescriptionViewModel> prescriptions) => _Mapper.Map<List<PrescriptionDto>>(prescriptions);
         #endregion
     }
 }

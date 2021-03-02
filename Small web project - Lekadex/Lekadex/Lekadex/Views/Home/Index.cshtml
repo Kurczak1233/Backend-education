@@ -16,10 +16,22 @@
         <thead>
             <tr>
                 <th scope="col">
-                    #
+                    Id
                 </th>
                 <th scope="col">
-                    Name
+                    First name
+                </th>
+                <th scope="col">
+                    Last name
+                </th>
+                <th scope="col">
+                    Phone number
+                </th>
+                <th scope="col">
+                    Work years
+                </th>
+                <th scope="col">
+                    Can make prescriptions
                 </th>
                 <th scope="col">
                     Actions
@@ -29,14 +41,31 @@
         <tbody>
             @foreach(var doctor in Model)
             {
-                <tr>
-                    <th scope="row">
-                        @(Model.IndexOf(doctor) + 1)
-                    </th>
-                    <td>@doctor.Name</td>
-                    <td><a class="text-dark" asp-area="" asp-controller="Home" asp-action="View" asp-route-indexOfDoctor="@Model.IndexOf(doctor)">View</a> |
-                    <a class="text-dark" asp-area="" asp-controller="Home" asp-action="Delete"  asp-route-indexOfDoctor="@Model.IndexOf(doctor)">Delete</a></td>
-                </tr>
+            <tr>
+                <th scope="row">
+                    @doctor.Id
+                </th>
+                <th scope="row">
+                    @doctor.FirstName
+                </th>
+                <th scope="row">
+                    @doctor.LastName
+                </th>
+                <th scope="row">
+                    @doctor.PhoneNumber
+                </th>
+                <th scope="row">
+                    @doctor.WorkYears
+                </th>
+                <th scope="row">
+                    @doctor.IsAbleToMakePrescriptions
+                </th>
+                <td>@doctor.FirstName</td>
+                <td>
+                    <a class="text-dark" asp-area="" asp-controller="Home" asp-action="View" asp-route-doctorId="@doctor.Id">View @doctor.Id</a> |
+                    <a class="text-dark" asp-area="" asp-controller="Home" asp-action="Delete" asp-route-doctorId="@doctor.Id">Delete</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

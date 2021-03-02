@@ -15,7 +15,7 @@ namespace Lekadex.Database
         public IEnumerable<Prescription> GetAllPrescriptions()
         {
             //Filtrowanie wyżej (db)
-            return DbSet.Include(x=>x.MedicinesList).Select(x => x); //INCLUDE DODAJE LEKI DO PRESCRIPTION!
+            return DbSet/*Include(x=>x.MedicinesList)*/.Select(x => x); //INCLUDE DODAJE LEKI DO PRESCRIPTION!
         }
     }
 

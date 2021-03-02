@@ -9,6 +9,6 @@ namespace Lekadex
         public string Name { get; set; }
         public DateTime CreatedDate { get; set; }
         public DoctorViewModel Doctor { get; set; }
-        public IEnumerable<PrescriptionViewModel> MedicinesList { get; set; }
+        public List<MedicineViewModel> MedicinesList { get; set; }
     }
 }

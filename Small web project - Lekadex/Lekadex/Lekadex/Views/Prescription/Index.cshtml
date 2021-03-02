@@ -7,8 +7,12 @@
 <a class="btn btn-success" asp-controller="Prescription" asp-action="Add">Go to Add</a>
 
 <div>
-    Doctors's' data:
-    Name: @Model.Name
+    Doctors's data: <br />
+    FirstName: @Model.FirstName<br />
+    LastName: @Model.LastName<br />
+    Phone number: @Model.PhoneNumber<br />
+    WorkYears: @Model.WorkYears<br />
+    Is able to make prescriptions: @Model.IsAbleToMakePrescriptions<br />
 </div>
 
 
@@ -22,10 +26,13 @@
         <thead>
             <tr>
                 <th scope="col">
-                    #
+                    Id
                 </th>
                 <th scope="col">
                     Name
+                </th>
+                <th scope="col">
+                    Created date
                 </th>
                 <th scope="col">
                     Actions
@@ -33,16 +40,16 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var prescription in Model.Prescriptions)
+            @foreach (var prescription in Model.PresiptionsList)
             {
                 <tr>
                     <th scope="row">
-                        @(Model.Prescriptions.IndexOf(prescription) + 1)
+                        @prescription.Id
                     </th>
                     <td>@prescription.Name</td>
                     <td>
-                        <a class="text-dark" asp-area="" asp-controller="Prescription" asp-action="View" asp-route-indexOfPrescription="@Model.Prescriptions.IndexOf(prescription)">View</a> |
-                        <a class="text-dark" asp-area="" asp-controller="Prescription" asp-action="Delete" asp-route-indexOfPrescription="@Model.Prescriptions.IndexOf(prescription)">Delete</a>
+                        <a class="text-dark" asp-area="" asp-controller="Prescription" asp-action="View" asp-route-prescriptionId="@prescription.Id">View</a> |
+                        <a class="text-dark" asp-area="" asp-controller="Prescription" asp-action="Delete" asp-route-prescriptionId="@prescription.Id">Delete</a>
                     </td>
                 </tr>
             }

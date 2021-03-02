@@ -6,13 +6,13 @@ namespace Lekadex.Core
     public interface IDoctorManager
     {
         void AddNewMedicine(MedicineDto medicine, int prescriptionId);
-        void AddNewPrescription(DoctorDto doctor);
+        void AddNewDoctor(DoctorDto doctor);
         void AddNewPrescription(PrescriptionDto prescription, int doctorsId);
         bool DeleteMedicine(MedicineDto medicine);
-        void DeletePrescription(DoctorDto doctor);
+        void DeleteDoctor(DoctorDto doctor);
         bool DeletePrescription(PrescriptionDto prescription);
-        IEnumerable<DoctorDto> GetAllDoctors(string filter);
-        IEnumerable<MedicineDto> GetAllMedicinesForAPrescription(int prescriptionId, string filter);
-        IEnumerable<PrescriptionDto> GetAllPrescriptionsForADoctor(int doctorId, string filter);
+        List<DoctorDto> GetAllDoctors(string filter);
+        List<MedicineDto> GetAllMedicinesForAPrescription(int prescriptionId, string filter);
+        List<PrescriptionDto> GetAllPrescriptionsForADoctor(int doctorId, string filter);
     }
 }

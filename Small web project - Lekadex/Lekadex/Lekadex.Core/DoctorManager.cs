@@ -23,32 +23,32 @@ namespace Lekadex.Core
             _DoctorsMapper = docmap;
         }
 
-        public IEnumerable<DoctorDto> GetAllDoctors(string filter)
+        public List<DoctorDto> GetAllDoctors(string filter)
         {
-            var doctorEntities = _DoctorRepostiory.GetAllDoctors();
-            if (string.IsNullOrEmpty(filter))
+            var doctorEntities = _DoctorRepostiory.GetAllDoctors().ToList();
+            if (!string.IsNullOrEmpty(filter))
             {
-                doctorEntities = doctorEntities.Where(x => x.FirstName.Contains(filter) || x.LastName.Contains(filter));
+                doctorEntities = doctorEntities.Where(x => x.FirstName.Contains(filter) || x.LastName.Contains(filter)).ToList();
             }
             return _DoctorsMapper.Map(doctorEntities);
         }
 
-        public IEnumerable<PrescriptionDto> GetAllPrescriptionsForADoctor(int doctorId, string filter)
+        public List<PrescriptionDto> GetAllPrescriptionsForADoctor(int doctorId, string filter)
         {
-            var prescriptionsEntities = _PrescriptionRepository.GetAllPrescriptions().Where(x => x.DoctorId == doctorId); //Trzeba jeszcze zawęźić te doctor ID's
-            if (string.IsNullOrEmpty(filter))
+            var prescriptionsEntities = _PrescriptionRepository.GetAllPrescriptions().Where(x => x.DoctorId == doctorId).ToList(); //Trzeba jeszcze zawęźić te doctor ID's
+            if (!string.IsNullOrEmpty(filter))
             {
-                prescriptionsEntities = prescriptionsEntities.Where(x => x.Name.Contains(filter));
+                prescriptionsEntities = prescriptionsEntities.Where(x => x.Name.Contains(filter)).ToList();
             }
             return _DoctorsMapper.Map(prescriptionsEntities); //Są tam też inne mappery
         }
 
-        public IEnumerable<MedicineDto> GetAllMedicinesForAPrescription(int prescriptionId, string filter)
+        public List<MedicineDto> GetAllMedicinesForAPrescription(int prescriptionId, string filter)
         {
-            var medicinesEntities = _MedicineRepostiory.GetAllMedicines().Where(x => x.PrescriptionId == prescriptionId); //Trzeba jeszcze zawęźić te doctor ID's
-            if (string.IsNullOrEmpty(filter))
+            var medicinesEntities = _MedicineRepostiory.GetAllMedicines().Where(x => x.PrescriptionId == prescriptionId).ToList(); //Trzeba jeszcze zawęźić te doctor ID's
+            if (!string.IsNullOrEmpty(filter))
             {
-                medicinesEntities = medicinesEntities.Where(x => x.ActiveSubstance.Contains(filter) || x.Name.Contains(filter) || x.CompanyName.Contains(filter));
+                medicinesEntities = medicinesEntities.Where(x => x.ActiveSubstance.Contains(filter) || x.Name.Contains(filter) || x.CompanyName.Contains(filter)).ToList();
             }
             return _DoctorsMapper.Map(medicinesEntities); //Są tam też inne mappery
         }
@@ -71,7 +71,7 @@ namespace Lekadex.Core
             _PrescriptionRepository.AddNew(entity);
         }
 
-        public void AddNewPrescription(DoctorDto doctor)
+        public void AddNewDoctor(DoctorDto doctor)
         {
             var entity = _DoctorsMapper.Map(doctor);
 
@@ -91,7 +91,7 @@ namespace Lekadex.Core
             return _PrescriptionRepository.Delete(entity);
         }
 
-        public void DeletePrescription(DoctorDto doctor)
+        public void DeleteDoctor(DoctorDto doctor)
         {
             var entity = _DoctorsMapper.Map(doctor);
 

@@ -1,4 +1,6 @@
-﻿using Lekadex.Models;
+﻿using Lekadex.Core;
+using Lekadex.Core.DTOs;
+using Lekadex.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,22 +14,29 @@ namespace Lekadex.Controllers
     public class HomeController : Controller
     {
 
-
+        private readonly IDoctorManager _DoctorManager;
+        private readonly ViewModelMapper _VMMapper;
+        public HomeController(IDoctorManager docmanager, ViewModelMapper vmMapper)
+        {
+            _DoctorManager = docmanager;
+            _VMMapper = vmMapper;
+        }
         public IActionResult Index(string filterString)
         {
-            if (string.IsNullOrEmpty(filterString))
-            {
-                return View(TEMPORARYStaticDatabase.Doctors);
-            }
-            return View(TEMPORARYStaticDatabase.Doctors.Where(x=>x.Name.Contains(filterString)).ToList());
+            var DoctorsDTO = _DoctorManager.GetAllDoctors(filterString);
+            var DoctorViewModel = _VMMapper.Map(DoctorsDTO);
+            return View(DoctorViewModel);
         }
-        public IActionResult View(int indexOfDoctor)
+        public IActionResult View(int doctorId)
         {
-            return RedirectToAction("Index", "Prescription", new { indexOfDoctor = indexOfDoctor });
+            return RedirectToAction("Index", "Prescription", new { doctorId = doctorId });
         }
-        public IActionResult Delete(int indexOfDoctor)
+        public IActionResult Delete(int doctorId)
         {
-            return View(TEMPORARYStaticDatabase.Doctors);
+            _DoctorManager.DeleteDoctor(new DoctorDto { Id = doctorId });
+            var DoctorsDTO = _DoctorManager.GetAllDoctors(null); //Zwracamy wszystkich pozostałych doktorów.
+            var DoctorViewModel = _VMMapper.Map(DoctorsDTO);
+            return View(DoctorViewModel);
         }
 
         public IActionResult Add()
@@ -37,7 +46,8 @@ namespace Lekadex.Controllers
         [HttpPost]
         public IActionResult Add(DoctorViewModel DoctorVM)
         {
-            TEMPORARYStaticDatabase.Doctors.Add(DoctorVM);
+            var dto = _VMMapper.Map(DoctorVM);
+            _DoctorManager.AddNewDoctor(dto);
             return RedirectToAction("Index");
         }
     }

@@ -28,13 +28,13 @@ namespace Lekadex.Controllers
             var prescriptionDto = _DoctorManager.GetAllPrescriptionsForADoctor(doctorId, null).Where(x=>x.Id == prescriptionId).FirstOrDefault(); // null bo FIltrujemy leki nie preskrypcje
             var medicineDtos = _DoctorManager.GetAllMedicinesForAPrescription(prescriptionId, filterString);
             var prescriptionViewModel = _VMMapper.Map(prescriptionDto);
-            prescriptionViewModel.MedicinesList = (IEnumerable<PrescriptionViewModel>)_VMMapper.Map(medicineDtos);
+            prescriptionViewModel.MedicinesList = _VMMapper.Map(medicineDtos);
             return View(prescriptionViewModel);
         }
 
-        public IActionResult Delete(int indexOfMedicine)
+        public IActionResult Delete(int medicineId)
         {
-            _DoctorManager.DeleteMedicine(new MedicineDto { Id = indexOfMedicine }); //W naszym repo porównujemy tylko ID, więć dając ID to zadziała
+            _DoctorManager.DeleteMedicine(new MedicineDto { Id = medicineId }); //W naszym repo porównujemy tylko ID, więć dając ID to zadziała
 
             return View();
         }

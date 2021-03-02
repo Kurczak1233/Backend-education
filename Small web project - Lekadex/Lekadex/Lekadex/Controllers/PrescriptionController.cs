@@ -23,23 +23,22 @@ namespace Lekadex.Controllers
             _VMMapper = vmMapper;
         }
         private int DoctorId { get; set; }
-        private DoctorViewModel _DoctorVM { get; set; }
         public IActionResult Index(int doctorId, string filterString)
         {
             DoctorId = doctorId;
             var prescriptionDto = _DoctorManager.GetAllPrescriptionsForADoctor(doctorId, filterString);
             var doctorDto = _DoctorManager.GetAllDoctors(null).FirstOrDefault(x => x.Id == doctorId);
             var DoctorVm = _VMMapper.Map(doctorDto);
-            DoctorVm.PresiptionsList = (IEnumerable<PrescriptionViewModel>)_VMMapper.Map(DoctorVm);
-            return View();
+            DoctorVm.PresiptionsList = _VMMapper.Map(prescriptionDto);
+            return View(DoctorVm);
         }
         public IActionResult View(int prescriptionId)
         {
             return RedirectToAction("Index", "Medicine", new { doctorId = DoctorId, prescriptionId = prescriptionId });
         }
-        public IActionResult Delete(int prescriptionID)
+        public IActionResult Delete(int prescriptionId)
         {
-            _DoctorManager.DeletePrescription(new PrescriptionDto{ Id = prescriptionID});
+            _DoctorManager.DeletePrescription(new PrescriptionDto{ Id = prescriptionId });
             return View();
         }
 
