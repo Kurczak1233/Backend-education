@@ -1,4 +1,6 @@
-﻿using Lekadex.Models;
+﻿using Lekadex.Core;
+using Lekadex.Core.DTOs;
+using Lekadex.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,27 +13,33 @@ namespace Lekadex.Controllers
 {
     public class PrescriptionController : Controller
     {
-        private int IndexOfDoctor { get; set; }
-        private DoctorViewModel _DoctorVM { get; set; }
-        public IActionResult Index(int indexOfDoctor, string filterString)
-        {
-            IndexOfDoctor = indexOfDoctor;
 
-            if (string.IsNullOrEmpty(filterString))
-            {
-                return View(TEMPORARYStaticDatabase.Doctors.ElementAt(indexOfDoctor));
-            }
-            return View(new DoctorViewModel {
-                Name = TEMPORARYStaticDatabase.Doctors.ElementAt(indexOfDoctor).Name,
-                Prescriptions = TEMPORARYStaticDatabase.Doctors.ElementAt(indexOfDoctor).Prescriptions.Where(x=>x.Name.Contains(filterString)).ToList()
-            });
-        }
-        public IActionResult View(int indexOfPrescription)
+        private readonly IDoctorManager _DoctorManager;
+        private readonly ViewModelMapper _VMMapper;
+
+        public PrescriptionController(IDoctorManager docmanager, ViewModelMapper vmMapper)
         {
-            return RedirectToAction("Index", "Medicine", new { indexOfDoctor = IndexOfDoctor, indexOfPrescription = indexOfPrescription });
+            _DoctorManager = docmanager;
+            _VMMapper = vmMapper;
         }
-        public IActionResult Delete(int indexOfPrescription)
+        private int DoctorId { get; set; }
+        private DoctorViewModel _DoctorVM { get; set; }
+        public IActionResult Index(int doctorId, string filterString)
         {
+            DoctorId = doctorId;
+            var prescriptionDto = _DoctorManager.GetAllPrescriptionsForADoctor(doctorId, filterString);
+            var doctorDto = _DoctorManager.GetAllDoctors(null).FirstOrDefault(x => x.Id == doctorId);
+            var DoctorVm = _VMMapper.Map(doctorDto);
+            DoctorVm.PresiptionsList = (IEnumerable<PrescriptionViewModel>)_VMMapper.Map(DoctorVm);
+            return View();
+        }
+        public IActionResult View(int prescriptionId)
+        {
+            return RedirectToAction("Index", "Medicine", new { doctorId = DoctorId, prescriptionId = prescriptionId });
+        }
+        public IActionResult Delete(int prescriptionID)
+        {
+            _DoctorManager.DeletePrescription(new PrescriptionDto{ Id = prescriptionID});
             return View();
         }
 
@@ -42,7 +50,8 @@ namespace Lekadex.Controllers
         [HttpPost]
         public IActionResult Add(PrescriptionViewModel prescriptionVM)
         {
-            TEMPORARYStaticDatabase.Doctors.ElementAt(IndexOfDoctor).Prescriptions.Add(prescriptionVM);
+            var dto = _VMMapper.Map(prescriptionVM);
+            _DoctorManager.AddNewPrescription(dto, DoctorId);
             return RedirectToAction("Index");
         }
     }

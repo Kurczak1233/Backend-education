@@ -1,4 +1,5 @@
 ﻿using Lekadex.Core;
+using Lekadex.Core.DTOs;
 using Lekadex.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -27,22 +28,14 @@ namespace Lekadex.Controllers
             var prescriptionDto = _DoctorManager.GetAllPrescriptionsForADoctor(doctorId, null).Where(x=>x.Id == prescriptionId).FirstOrDefault(); // null bo FIltrujemy leki nie preskrypcje
             var medicineDtos = _DoctorManager.GetAllMedicinesForAPrescription(prescriptionId, filterString);
             var prescriptionViewModel = _VMMapper.Map(prescriptionDto);
-            prescriptionViewModel.MedicinesList = _VMMapper.Map(medicineDtos);
-            DoctorId = doctorId;
-            PrescriptionId = prescriptionId;
-            if (string.IsNullOrEmpty(filterString))
-            {
-                return View(TEMPORARYStaticDatabase.Doctors.ElementAt(doctorId).Prescriptions.ElementAt(prescriptionId));
-            }
-            return View(new PrescriptionViewModel
-            {
-                Name = TEMPORARYStaticDatabase.Doctors.ElementAt(doctorId).Prescriptions.ElementAt(prescriptionId).Name,
-                Medicines = TEMPORARYStaticDatabase.Doctors.ElementAt(doctorId).Prescriptions.ElementAt(prescriptionId).Medicines.Where(c => c.Name.Contains(filterString)).ToList()
-            });
+            prescriptionViewModel.MedicinesList = (IEnumerable<PrescriptionViewModel>)_VMMapper.Map(medicineDtos);
+            return View(prescriptionViewModel);
         }
 
         public IActionResult Delete(int indexOfMedicine)
         {
+            _DoctorManager.DeleteMedicine(new MedicineDto { Id = indexOfMedicine }); //W naszym repo porównujemy tylko ID, więć dając ID to zadziała
+
             return View();
         }
 
@@ -53,7 +46,8 @@ namespace Lekadex.Controllers
         [HttpPost]
         public IActionResult Add(MedicineViewModel medicineVM)
         {
-            TEMPORARYStaticDatabase.Doctors.ElementAt(IndexOfDoctor).Prescriptions.ElementAt(IndexOfPrescription).Medicines.Add(medicineVM);
+            var dto = _VMMapper.Map(medicineVM);
+            _DoctorManager.AddNewMedicine(dto, PrescriptionId);
             return RedirectToAction("Index");
         }
     }
