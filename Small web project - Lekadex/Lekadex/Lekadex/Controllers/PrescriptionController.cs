@@ -39,7 +39,8 @@ namespace Lekadex.Controllers
         public IActionResult Delete(int prescriptionId)
         {
             _DoctorManager.DeletePrescription(new PrescriptionDto{ Id = prescriptionId });
-            return View();
+            var docId = int.Parse(TempData["DoctorId"].ToString());
+            return RedirectToAction("Index", new { doctorId = docId });
         }
 
         public IActionResult Add()
@@ -49,9 +50,10 @@ namespace Lekadex.Controllers
         [HttpPost]
         public IActionResult Add(PrescriptionViewModel prescriptionVM)
         {
+            var docId = int.Parse(TempData["DoctorId"].ToString());
             var dto = _VMMapper.Map(prescriptionVM);
-            _DoctorManager.AddNewPrescription(dto, int.Parse(TempData["DoctorId"].ToString()));
-            return RedirectToAction("Index");
+            _DoctorManager.AddNewPrescription(dto, docId);
+            return RedirectToAction("Index", new { doctorId = docId });
         }
     }
 }

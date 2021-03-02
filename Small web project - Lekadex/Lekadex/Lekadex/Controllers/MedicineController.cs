@@ -15,8 +15,6 @@ namespace Lekadex.Controllers
     {
         private readonly IDoctorManager _DoctorManager;
         private readonly ViewModelMapper _VMMapper;
-        private int DoctorId { get; set; }
-        private int PrescriptionId { get; set; }
         public MedicineController(IDoctorManager docmanager, ViewModelMapper vmMapper)
         {
             _DoctorManager = docmanager;
@@ -24,7 +22,8 @@ namespace Lekadex.Controllers
         }
         public IActionResult Index(int doctorId, int prescriptionId , string filterString)
         {
-
+            TempData["PrescriptionId"] = prescriptionId;
+            TempData["DoctorId"] = doctorId;
             var prescriptionDto = _DoctorManager.GetAllPrescriptionsForADoctor(doctorId, null).Where(x=>x.Id == prescriptionId).FirstOrDefault(); // null bo FIltrujemy leki nie preskrypcje
             var medicineDtos = _DoctorManager.GetAllMedicinesForAPrescription(prescriptionId, filterString);
             var prescriptionViewModel = _VMMapper.Map(prescriptionDto);
@@ -35,8 +34,9 @@ namespace Lekadex.Controllers
         public IActionResult Delete(int medicineId)
         {
             _DoctorManager.DeleteMedicine(new MedicineDto { Id = medicineId }); //W naszym repo porównujemy tylko ID, więć dając ID to zadziała
-
-            return View();
+            var prscId = int.Parse(TempData["PrescriptionId"].ToString());
+            var docId = int.Parse(TempData["DoctorId"].ToString());
+            return RedirectToAction("Index", new { doctorId = docId, prescriptionId = prscId });
         }
 
         public IActionResult Add()
@@ -46,9 +46,11 @@ namespace Lekadex.Controllers
         [HttpPost]
         public IActionResult Add(MedicineViewModel medicineVM)
         {
+            var prscId = int.Parse(TempData["PrescriptionId"].ToString());
+            var docId = int.Parse(TempData["DoctorId"].ToString());
             var dto = _VMMapper.Map(medicineVM);
-            _DoctorManager.AddNewMedicine(dto, PrescriptionId);
-            return RedirectToAction("Index");
+            _DoctorManager.AddNewMedicine(dto, prscId);
+            return RedirectToAction("Index", new {doctorId = docId, prescriptionId = prscId });
         }
     }
 }

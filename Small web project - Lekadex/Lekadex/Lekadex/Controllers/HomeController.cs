@@ -36,7 +36,7 @@ namespace Lekadex.Controllers
             _DoctorManager.DeleteDoctor(new DoctorDto { Id = doctorId });
             var DoctorsDTO = _DoctorManager.GetAllDoctors(null); //Zwracamy wszystkich pozostałych doktorów.
             var DoctorViewModel = _VMMapper.Map(DoctorsDTO);
-            return View(DoctorViewModel);
+            return View("Index", DoctorViewModel);
         }
 
         public IActionResult Add()
