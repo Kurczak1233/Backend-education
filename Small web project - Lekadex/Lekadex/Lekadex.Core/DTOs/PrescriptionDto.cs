@@ -1,13 +1,9 @@
-﻿using Lekadex.Database;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Lekadex.Core.DTOs
 {
-    class PrescriptionDto
+    public class PrescriptionDto
     {
 
         public int Id { get; set; }
