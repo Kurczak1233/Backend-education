@@ -10,6 +10,6 @@ namespace Lekadex.Core.DTOs
         public string PhoneNumber { get; set; }
         public int WorkYears { get; set; }
         public bool IsAbleToMakePrescriptions { get; set; }
-        public List<PrescriptionDto> PresiptionsList { get; set; }
+        public IEnumerable<PrescriptionDto> PresiptionsList { get; set; }
     }
 }

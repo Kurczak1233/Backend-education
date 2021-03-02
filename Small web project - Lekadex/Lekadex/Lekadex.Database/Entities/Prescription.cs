@@ -17,6 +17,6 @@ namespace Lekadex.Database
         public virtual Doctor Doctor { get; set; }
 
         [NotMapped]
-        public virtual List<Medicine> MedicinesList {get; set;}
+        public virtual IEnumerable<Medicine> MedicinesList {get; set;}
     }
 }

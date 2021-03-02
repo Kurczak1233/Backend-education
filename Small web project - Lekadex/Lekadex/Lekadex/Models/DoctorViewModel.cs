@@ -10,6 +10,6 @@ namespace Lekadex
         public string PhoneNumber { get; set; }
         public int WorkYears { get; set; }
         public bool IsAbleToMakePrescriptions { get; set; }
-        public List<PrescriptionDto> PresiptionsList { get; set; }
+        public IEnumerable<PrescriptionViewModel> PresiptionsList { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Lekadex
+﻿using System;
+
+namespace Lekadex
 {
     public class MedicineViewModel
     {
@@ -11,6 +13,6 @@
         public decimal PriceInTotal { get; set; }
         public int Amount { get; set; }
         public DateTime ExpirationDate { get; set; }
-        public PrescriptionDto Prescription { get; set; }
+        public PrescriptionViewModel Prescription { get; set; }
     }
 }

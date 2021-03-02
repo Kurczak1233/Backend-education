@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Lekadex
 { 
@@ -7,7 +8,7 @@ namespace Lekadex
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreatedDate { get; set; }
-        public DoctorDto Doctor { get; set; }
-        public List<MedicineDto> MedicinesList { get; set; }
+        public DoctorViewModel Doctor { get; set; }
+        public IEnumerable<PrescriptionViewModel> MedicinesList { get; set; }
     }
 }
