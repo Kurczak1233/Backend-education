@@ -65,16 +65,16 @@ namespace Lekadex.Core
         public void AddNewPrescription(PrescriptionDto prescription, int doctorsId)
         {
             var entity = _DoctorsMapper.Map(prescription);
-
+            
             entity.DoctorId = doctorsId;
-
+            entity.Doctor = _DoctorRepostiory.GetAllDoctors().Where(x => x.Id == doctorsId).FirstOrDefault();
             _PrescriptionRepository.AddNew(entity);
         }
 
         public void AddNewDoctor(DoctorDto doctor)
         {
             var entity = _DoctorsMapper.Map(doctor);
-
+            
             _DoctorRepostiory.AddNew(entity);
         }
 

@@ -24,8 +24,8 @@ namespace Lekadex.Controllers
         }
         private int DoctorId { get; set; }
         public IActionResult Index(int doctorId, string filterString)
-        {
-            DoctorId = doctorId;
+         {
+            TempData["DoctorId"] = doctorId;
             var prescriptionDto = _DoctorManager.GetAllPrescriptionsForADoctor(doctorId, filterString);
             var doctorDto = _DoctorManager.GetAllDoctors(null).FirstOrDefault(x => x.Id == doctorId);
             var DoctorVm = _VMMapper.Map(doctorDto);
@@ -50,7 +50,7 @@ namespace Lekadex.Controllers
         public IActionResult Add(PrescriptionViewModel prescriptionVM)
         {
             var dto = _VMMapper.Map(prescriptionVM);
-            _DoctorManager.AddNewPrescription(dto, DoctorId);
+            _DoctorManager.AddNewPrescription(dto, int.Parse(TempData["DoctorId"].ToString()));
             return RedirectToAction("Index");
         }
     }
