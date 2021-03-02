@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace Lekadex.Core.Mappers
 {
-    public class DoctorsMapper
+    public class DTOMapper
     {
-        private IMapper _Mapper;
+        private readonly IMapper _Mapper;
 
-        public DoctorsMapper()
+        public DTOMapper()
         {
             _Mapper = new MapperConfiguration(config =>
             {

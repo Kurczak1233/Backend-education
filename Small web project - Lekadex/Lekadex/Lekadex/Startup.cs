@@ -33,8 +33,10 @@ namespace Lekadex
             services.AddTransient<IPrescriptionRepository, PrescriptionRepository>();
             services.AddTransient<IMedicineRepository, MedicineRepository>();
             //Dodajemy do dependcy injection
-            services.AddTransient<DoctorsMapper>();
+            services.AddTransient<DTOMapper>();
             services.AddTransient<IDoctorManager, DoctorManager>();
+            //Mapper ViewModel
+            services.AddTransient<ViewModelMapper>();
 
 
         }

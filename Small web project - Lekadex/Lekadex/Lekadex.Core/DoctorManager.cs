@@ -13,9 +13,9 @@ namespace Lekadex.Core
         private readonly IDoctorRepostiory _DoctorRepostiory;
         private readonly IMedicineRepository _MedicineRepostiory;
         private readonly IPrescriptionRepository _PrescriptionRepository;
-        private readonly DoctorsMapper _DoctorsMapper;
+        private readonly DTOMapper _DoctorsMapper;
 
-        public DoctorManager(IDoctorRepostiory doctorRepository, IPrescriptionRepository prescriptionRepository, IMedicineRepository medicineRepository, DoctorsMapper docmap)
+        public DoctorManager(IDoctorRepostiory doctorRepository, IPrescriptionRepository prescriptionRepository, IMedicineRepository medicineRepository, DTOMapper docmap)
         {
             _DoctorRepostiory = doctorRepository;
             _PrescriptionRepository = prescriptionRepository;
