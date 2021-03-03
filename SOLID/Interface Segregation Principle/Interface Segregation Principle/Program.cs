@@ -45,7 +45,7 @@ namespace Interface_Segregation_Principle
         {
             printer.Print(d);
         }
-        public void Scan(Document d)
+        public void Fax(Document d)
         {
             scaner.Fax(d);
         }
