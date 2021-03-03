@@ -74,6 +74,18 @@ namespace Open_Close_Principle
         IEnumerable<T> Filter(IEnumerable<T> items, ISpecificaction<T> spec);
     }
 
+    public class BetterFilter : IFilter<Product>
+    {
+        public IEnumerable<Product> Filter(IEnumerable<Product> items, ISpecificaction<Product> spec)
+        {
+            foreach (var item in items)
+            {
+                if (spec.IsSatisfied(item))
+                    yield return item;
+            }
+        }
+    }
+
     public class ColorSpecification : ISpecificaction<Product>
     {
         private Color color;
@@ -87,15 +99,33 @@ namespace Open_Close_Principle
         }
     }
 
-    public class BetterFilter : IFilter<Product>
+    public class SizeSpecification : ISpecificaction<Product>
     {
-        public IEnumerable<Product> Filter(IEnumerable<Product> items, ISpecificaction<Product> spec)
+        private Size size;
+        public SizeSpecification(Size size)
         {
-            foreach (var item in items)
-            {
-                if (spec.IsSatisfied(item))
-                    yield return item;
-            }
+            this.size = size;
+        }
+        public bool IsSatisfied(Product t)
+        {
+            return t.Size == size;
+        }
+    }
+
+
+    public class AndSpecification<T> : ISpecificaction<T>
+    {
+        private ISpecificaction<T> First, Second;
+
+        public AndSpecification(ISpecificaction<T> first, ISpecificaction<T> second)
+        {
+            First = first;
+            Second = second;
+        }
+
+        public bool IsSatisfied(T t)
+        {
+            return First.IsSatisfied(t) && Second.IsSatisfied(t);
         }
     }
 
@@ -120,6 +150,13 @@ namespace Open_Close_Principle
             foreach(var p in bf.Filter(products, new ColorSpecification(Color.Green)))
             {
                 Console.WriteLine($"- {p.Name} is green");
+
+            }
+
+            Console.WriteLine("Large blue items");
+            foreach (var p in bf.Filter(products, new AndSpecification<Product>(new ColorSpecification(Color.Blue), (new SizeSpecification(Size.Large)))))
+            {
+                Console.WriteLine($"- {p.Name} is big and blue");
 
             }
         }
