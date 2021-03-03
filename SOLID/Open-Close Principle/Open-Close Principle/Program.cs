@@ -157,7 +157,6 @@ namespace Open_Close_Principle
             foreach (var p in bf.Filter(products, new AndSpecification<Product>(new ColorSpecification(Color.Blue), (new SizeSpecification(Size.Large)))))
             {
                 Console.WriteLine($"- {p.Name} is big and blue");
-
             }
         }
     }
