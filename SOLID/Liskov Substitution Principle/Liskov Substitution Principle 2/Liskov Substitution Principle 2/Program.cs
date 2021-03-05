@@ -11,14 +11,14 @@ namespace Liskov_Substitution_Principle_2
             accountiongVp.LastName = "Emma";
             accountiongVp.CalculatePerHourRate(4);
 
-            Employee emp = new Employee();
+            Employee emp = new Manager();
 
             emp.FirstName = "Michal";
             emp.LastName = "Kupczak";
-            emp.AssignManager(accountiongVp);
+            emp.AssingManager(accountiongVp);
             emp.CalculatePerHourRate(2);
 
-            Console.WriteLine($"{emp.FirstName}'s salary is ${emp.Salary)/hour.");
+            Console.WriteLine($"{emp.FirstName}'s salary is ${emp.Salary}/hour.");
 
             Console.ReadLine();
 
