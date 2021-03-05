@@ -4,17 +4,13 @@ using System.Text;
 
 namespace Interface_Segregation_Principle_2
 {
-    class DVD : ILibraryItem
+    class DVD : IBorrowableDVD
     {
-        public string Author { get; set; }
         public DateTime BorrowDate { get; set; }
         public string Borrower { get; set; }
         public int CheckOutDurationInDays { get; set; }
         public string LibraryId { get; set; }
-        public int Pages { get; set; }
-        public string Title { get; set; }
-        public int RunTimeInMinutes { get; set; }
-        
+        public string Title { get; set; }      
         public List<string> Actors { get; set; }
         public int RunTimeInMintes { get; set; }
         public void CheckIn()
