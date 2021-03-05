@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Liskov_Substitution_Principle_2
 {
-    class CEO : Employee
+    class CEO : BaseEmployee, IManager
     {
         public override void CalculatePerHourRate(int rank)
         {
@@ -13,12 +13,7 @@ namespace Liskov_Substitution_Principle_2
 
         }
 
-        public override void AssingManager(Employee manager)
-        {
-            throw new InvalidOperationException("The CEO has no manager.");
-        }
-
-        public void GeneratePerfomranceReview()
+        public void GeneratePerformanceReview()
         {
             Console.WriteLine("Performance simulator...");
         }
