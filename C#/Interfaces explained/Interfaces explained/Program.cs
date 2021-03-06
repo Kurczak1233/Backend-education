@@ -36,6 +36,8 @@ namespace Interfaces_explained
             output.Add(new PhysicalProductModel { Title = "Nerf ball" });
             output.Add(new PhysicalProductModel { Title = "My stinky t-shirt" });
             output.Add(new PhysicalProductModel { Title = "Hard drive" });
+            return output;
         }
+        
     }
 }

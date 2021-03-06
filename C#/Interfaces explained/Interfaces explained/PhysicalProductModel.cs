@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Interfaces_explained
 {
-    public class PhysicalProductModel
+    public class PhysicalProductModel : IProductModel
     {
         public string Title{ get; set; }
-        public bool HasOrderBeenCompleted { get; private set; }
+        public bool HasOrderBeenCompleted { get; set; }
 
         public void ShipItem(CustomerModel customer)
         {
