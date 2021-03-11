@@ -26,7 +26,7 @@ namespace Genetic_alghoritm
             }
             //Generowanie dzieci
             Console.WriteLine("Children:");
-            NextPopulationGenerator childGenerator = new NextPopulationGenerator(5, 50); //Dużo więcej dzieci
+            NextPopulationGenerator childGenerator = new NextPopulationGenerator(5, 50);
             List<Parent> childrenGeneration = childGenerator.GenerateChildren(parents).ToList();
             foreach (var item in childrenGeneration)
             {
@@ -35,7 +35,7 @@ namespace Genetic_alghoritm
             Console.WriteLine("Children fitness:");
             childGenerator.Pattern = "10011001011001100101100110010110011001011001100101";
             childGenerator.CompariseToPattern(childrenGeneration);
-            var children = childrenGeneration.OrderByDescending(x => x.Points).Take(5).ToList();
+            var children = childrenGeneration.OrderByDescending(x => x.Points).Take(5).ToList(); //Bierzemy 5 najlepszych
             foreach (var item in children)
             {
                 Console.WriteLine(item.Points);
@@ -182,8 +182,9 @@ namespace Genetic_alghoritm
         {
             Random chosenParentGen = new Random();
             int probabilityChoice = chosenParentGen.Next(0, generationString.Length);
-            int chosenParent1 = generationString[probabilityChoice];
-            return parents[chosenParent1];
+            char chosenParent1 = generationString[probabilityChoice];
+            var chosen = Int32.Parse(chosenParent1.ToString());
+            return parents[chosen];
         }
     }
 }
