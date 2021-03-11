@@ -8,7 +8,7 @@ namespace Genetic_alghoritm
     {
         static void Main(string[] args)
         {
-            PopulationGenerator generator = new PopulationGenerator(5, 50);
+            FirstPopulationGenerator generator = new FirstPopulationGenerator(5, 50);
             generator.Pattern = "10011001011001100101100110010110011001011001100101"; //Tymczasowo stała. LettersCount musi być więc 10!
             List<Parent> parents = generator.GenerateChildren().ToList();
             //Wyświetlenie nazw rodziców
@@ -26,15 +26,16 @@ namespace Genetic_alghoritm
             }
             //Generowanie dzieci
             Console.WriteLine("Children:");
-            NextPopulationGenerator crossingGenerator = new NextPopulationGenerator(5, 50); //Dużo więcej dzieci
-            List<Parent> children = crossingGenerator.GenerateChildren(parents).ToList();
-            foreach (var item in children)
+            NextPopulationGenerator childGenerator = new NextPopulationGenerator(5, 50); //Dużo więcej dzieci
+            List<Parent> childrenGeneration = childGenerator.GenerateChildren(parents).ToList();
+            foreach (var item in childrenGeneration)
             {
                 Console.WriteLine(item.Name);
             }
             Console.WriteLine("Children fitness:");
-            crossingGenerator.Pattern = "10011001011001100101100110010110011001011001100101";
-            crossingGenerator.CompariseToPattern(children);
+            childGenerator.Pattern = "10011001011001100101100110010110011001011001100101";
+            childGenerator.CompariseToPattern(childrenGeneration);
+            var children = childrenGeneration.OrderByDescending(x => x.Points).Take(5).ToList();
             foreach (var item in children)
             {
                 Console.WriteLine(item.Points);
@@ -48,12 +49,12 @@ namespace Genetic_alghoritm
         public int Points { get; set; }
     }
 
-    public class PopulationGenerator
+    public class FirstPopulationGenerator
     {
         public int LettersCount { get; set; }
         public int ParentsCount { get; set; }
         public string Pattern { get; set; }
-        public PopulationGenerator(int amountofParents, int amountOfLetters)
+        public FirstPopulationGenerator(int amountofParents, int amountOfLetters)
         {
             LettersCount = amountOfLetters;
             ParentsCount = amountofParents;
@@ -97,40 +98,92 @@ namespace Genetic_alghoritm
         }
     }
 
-    public class NextPopulationGenerator : PopulationGenerator
+    public class NextPopulationGenerator : FirstPopulationGenerator
     {
-        public NextPopulationGenerator(/*int probability,*/ int amountofParents, int amountOfLetters) : base(amountofParents, amountOfLetters)
+
+        public NextPopulationGenerator(int amountofParents, int amountOfLetters) : base(amountofParents, amountOfLetters)
         {
         }
         public IEnumerable<Parent> GenerateChildren(List<Parent> parents)
         {
-            for (int i = 0; i < ParentsCount; i++) //Wiele razy powtórzyć
+            for (int i = 0; i < 50; i++) //Wiele razy powtórzyć
             {
                 yield return new Parent { Name = GenerateChildName(parents) };
             }
         }
         public string GenerateChildName(List<Parent> parents)  //Krzyżowanie //Domyślnie 2 rodziców
         {
+            //System prawdopodobieństwa krzyżowania najlepszych (najwięcej punktów)
+            string[] probabiltyStrings = new string[parents.Count];
+            string allProbabilitiesStrings = "";
+            for (int i = 0; i < 5;i++)
+            {
+                for(int j = 0; j < parents[i].Points; j++)
+                {
+                    probabiltyStrings[i] += i;
+                }
+                allProbabilitiesStrings += probabiltyStrings[i];
+            }
+            //Losowa z fitnessem
             string name = "";
             Random rnd2 = new Random();
             int crossingPoint = rnd2.Next(0, LettersCount);
-            Random chosenParentGen = new Random();
-            int chosenParent = chosenParentGen.Next(0, parents.Count); //Losują się wszyscy bez względu na points.
-            string FirstGenom = parents[chosenParent].Name.Substring(1, crossingPoint);
-            int chosenParent2 = chosenParentGen.Next(0, parents.Count);
-            if (chosenParent == chosenParent2)
-            {
-                chosenParent2 = chosenParentGen.Next(0, parents.Count); //Nie zabezpieczam przed drugim razem?
+            //First parent
+            var Parent1 = ChoseParentToReproduce(allProbabilitiesStrings, parents);
+            string FirstGenom = Parent1.Name.Substring(1, crossingPoint);
+            //Second parent
+            var Parent2 = ChoseParentToReproduce(allProbabilitiesStrings, parents);
 
+            while(CheckParentsAreTheSame(Parent1, Parent2)) //Bez samogwałtów
+            {
+                Parent2 = ChoseParentToReproduce(allProbabilitiesStrings, parents);
             }
-            string SecondGenom = parents[chosenParent2].Name.Substring(crossingPoint);
+            string SecondGenom = Parent2.Name.Substring(crossingPoint);
             name = FirstGenom + SecondGenom;
             return name;
-            // V.1
-            //string FirstGen = parents[0].Name.Substring(0, crossingPoint);
-            //string SecondGen = parents[1].Name.Substring(crossingPoint);
-            //name += FirstGen + SecondGen;
+
+            //Losowa bez uwzgl. fitness'u
+            //string name = "";
+            //Random rnd2 = new Random();
+            //int crossingPoint = rnd2.Next(0, LettersCount);
+            //Random chosenParentGen = new Random();
+            //int chosenParent = chosenParentGen.Next(0, parents.Count); //Losują się wszyscy bez względu na points.
+            //string FirstGenom = parents[chosenParent].Name.Substring(1, crossingPoint);
+            //int chosenParent2 = chosenParentGen.Next(0, parents.Count);
+            //if (chosenParent == chosenParent2)
+            //{
+            //    chosenParent2 = chosenParentGen.Next(0, parents.Count); //Nie zabezpieczam przed drugim razem?
+
+            //}
+            //string SecondGenom = parents[chosenParent2].Name.Substring(crossingPoint);
+            //name = FirstGenom + SecondGenom;
             //return name;
+
+            //Turniejowa
+            //var orderedParents = parents.OrderByDescending(x => x.Points);
+            //var parent1 = orderedParents.Select(x=>x).FirstOrDefault();
+            //var parent2 = orderedParents.Select(x => x).Skip(1).FirstOrDefault();
+            //string firstGen = parent1.Name.Substring(1, crossingPoint);
+            //string secondGen = parent2.Name.Substring(crossingPoint);
+            //name = firstGen + secondGen;
+            //return name;
+        }
+
+        private bool CheckParentsAreTheSame(Parent parent1, Parent parent2)
+        {
+            if(parent1 == parent2)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public Parent ChoseParentToReproduce(string generationString, List<Parent> parents)
+        {
+            Random chosenParentGen = new Random();
+            int probabilityChoice = chosenParentGen.Next(0, generationString.Length);
+            int chosenParent1 = generationString[probabilityChoice];
+            return parents[chosenParent1];
         }
     }
 }
