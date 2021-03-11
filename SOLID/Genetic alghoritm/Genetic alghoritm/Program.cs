@@ -8,8 +8,8 @@ namespace Genetic_alghoritm
     {
         static void Main(string[] args)
         {
-            PopulationGenerator generator = new PopulationGenerator(5,10);
-            generator.Pattern = "1001100111"; //Tymczasowo stała. LettersCount musi być więc 10!
+            PopulationGenerator generator = new PopulationGenerator(5,50);
+            generator.Pattern = "10011001011001100101100110010110011001011001100101"; //Tymczasowo stała. LettersCount musi być więc 10!
             List<Parent> parents = generator.GenerateChildren().ToList();
             foreach(var item in parents)
             {
@@ -20,8 +20,6 @@ namespace Genetic_alghoritm
             {
                 Console.WriteLine(item.Points);
             }
-
-
         }
     }
 
