@@ -8,8 +8,13 @@ namespace Genetic_alghoritm
     {
         static void Main(string[] args)
         {
-            FirstPopulationGenerator generator = new FirstPopulationGenerator(5, 50);
-            generator.Pattern = "10011001011001100101100110010110011001011001100101"; //Tymczasowo stała. LettersCount musi być więc 10!
+            int ChromosomeLenght = 120;
+            int ParentsCount = 5;
+            FirstPopulationGenerator generator = new FirstPopulationGenerator(ParentsCount, ChromosomeLenght);
+            //120 / 240 / 480
+            generator.Pattern = "100110010110011001011001100101100110010110011001011001100101100110010110011001011001100101100110010110100011001010101101"; //Tymczasowo stała. LettersCount musi być więc 10!
+            //generator.Pattern = "100110010110011001011001100101100110010110011001011001100101100110010110011001011001100101100110010110100011001010101101100110010110011001011001100101100110010110011001011001100101100110010110011001011001100101100110010110100011001010101101"; //Tymczasowo stała. LettersCount musi być więc 10!
+            //generator.Pattern = "100110010110011001011001100101100110010110011001011001100101100110010110011001011001100101100110010110100011001010101101100110010110011001011001100101100110010110011001011001100101100110010110011001011001100101100110010110100011001010101101100110010110011001011001100101100110010110011001011001100101100110010110011001011001100101100110010110100011001010101101100110010110011001011001100101100110010110011001011001100101100110010110011001011001100101100110010110100011001010101101"; //Tymczasowo stała. LettersCount musi być więc 10!
             List<Parent> parents = generator.GenerateChildren().ToList();
             //Wyświetlenie nazw rodziców
             Console.WriteLine("Parents:");
@@ -26,20 +31,41 @@ namespace Genetic_alghoritm
             }
             //Generowanie dzieci
             Console.WriteLine("Children:");
-            NextPopulationGenerator childGenerator = new NextPopulationGenerator(5, 50);
+            NextPopulationGenerator childGenerator = new NextPopulationGenerator(ParentsCount, ChromosomeLenght);
             List<Parent> childrenGeneration = childGenerator.GenerateChildren(parents).ToList();
             foreach (var item in childrenGeneration)
             {
                 Console.WriteLine(item.Name);
             }
             Console.WriteLine("Children fitness:");
-            childGenerator.Pattern = "10011001011001100101100110010110011001011001100101";
+            childGenerator.Pattern = "100110010110011001011001100101100110010110011001011001100101100110010110011001011001100101100110010110100011001010101101";
+            //childGenerator.Pattern = "100110010110011001011001100101100110010110011001011001100101100110010110011001011001100101100110010110100011001010101101100110010110011001011001100101100110010110011001011001100101100110010110011001011001100101100110010110100011001010101101100110010110011001011001100101100110010110011001011001100101100110010110011001011001100101100110010110100011001010101101100110010110011001011001100101100110010110011001011001100101100110010110011001011001100101100110010110100011001010101101"; //Tymczasowo stała. LettersCount musi być więc 10!
+
             childGenerator.CompariseToPattern(childrenGeneration);
             var children = childrenGeneration.OrderByDescending(x => x.Points).Take(5).ToList(); //Bierzemy 5 najlepszych
             foreach (var item in children)
             {
                 Console.WriteLine(item.Points);
             }
+            //
+            var sr = 0;
+            for (int i = 0; i < 10; i++) // 10 populacji
+            {
+                var ListOfBestParents = children;
+                var NewPopulation = childGenerator.GenerateChildren(ListOfBestParents).ToList();
+                childGenerator.CompariseToPattern(NewPopulation);
+                var top5 = NewPopulation.OrderByDescending(x => x.Points).Take(5).ToList();
+                foreach (var item in top5)
+                {
+                    sr += item.Points;
+                    Console.WriteLine(item.Points);
+                    Console.WriteLine(item.Name);
+                }
+                Console.WriteLine("//");
+                children = top5;
+            }
+            sr = sr / 50;
+            Console.WriteLine(sr);
         }
     }
 
@@ -116,9 +142,9 @@ namespace Genetic_alghoritm
             //System prawdopodobieństwa krzyżowania najlepszych (najwięcej punktów)
             string[] probabiltyStrings = new string[parents.Count];
             string allProbabilitiesStrings = "";
-            for (int i = 0; i < 5;i++)
+            for (int i = 0; i < 5; i++)
             {
-                for(int j = 0; j < parents[i].Points; j++)
+                for (int j = 0; j < parents[i].Points; j++)
                 {
                     probabiltyStrings[i] += i;
                 }
@@ -131,15 +157,16 @@ namespace Genetic_alghoritm
             //First parent
             var Parent1 = ChoseParentToReproduce(allProbabilitiesStrings, parents);
             string FirstGenom = Parent1.Name.Substring(1, crossingPoint);
+            string FirstGenomMutated = Mutation(FirstGenom);
             //Second parent
-            var Parent2 = ChoseParentToReproduce(allProbabilitiesStrings, parents);
-
-            while(CheckParentsAreTheSame(Parent1, Parent2)) //Bez samogwałtów
+            var Parent2 = ChoseParentToReproduce(allProbabilitiesStrings, parents); 
+            while (CheckParentsAreTheSame(Parent1, Parent2))
             {
                 Parent2 = ChoseParentToReproduce(allProbabilitiesStrings, parents);
             }
             string SecondGenom = Parent2.Name.Substring(crossingPoint);
-            name = FirstGenom + SecondGenom;
+            string SecondGenomMutation = Mutation(SecondGenom);
+            name = FirstGenomMutated + SecondGenomMutation;
             return name;
 
             //Losowa bez uwzgl. fitness'u
@@ -159,10 +186,17 @@ namespace Genetic_alghoritm
             //name = FirstGenom + SecondGenom;
             //return name;
 
-            //Turniejowa
-            //var orderedParents = parents.OrderByDescending(x => x.Points);
-            //var parent1 = orderedParents.Select(x=>x).FirstOrDefault();
-            //var parent2 = orderedParents.Select(x => x).Skip(1).FirstOrDefault();
+            ////Turniejowa
+            //string name = "";
+            //Random rnd2 = new Random();
+            //int crossingPoint = rnd2.Next(0, LettersCount);
+            //var orderedParents = parents.OrderByDescending(x => x.Points).ToList();
+            //var parent1 = orderedParents.Select(x => x).FirstOrDefault();
+            ////Drugi może być każdy
+            //Random chosenParentGen = new Random();
+            //int chosenParent = chosenParentGen.Next(0, parents.Count);
+            //var parent2 = orderedParents[chosenParent];
+            ///*var parent2 = orderedParents.Select(x => x).Skip(1).FirstOrDefault();*/ //A może losowo?
             //string firstGen = parent1.Name.Substring(1, crossingPoint);
             //string secondGen = parent2.Name.Substring(crossingPoint);
             //name = firstGen + secondGen;
@@ -171,7 +205,7 @@ namespace Genetic_alghoritm
 
         private bool CheckParentsAreTheSame(Parent parent1, Parent parent2)
         {
-            if(parent1 == parent2)
+            if (parent1 == parent2)
             {
                 return true;
             }
@@ -185,6 +219,33 @@ namespace Genetic_alghoritm
             char chosenParent1 = generationString[probabilityChoice];
             var chosen = Int32.Parse(chosenParent1.ToString());
             return parents[chosen];
+        }
+
+        public string Mutation(string chromosome)
+        {
+            Random rnd = new Random();
+            string MutatingGenom = "";
+            for (int x = 0; x < chromosome.Length; x++)
+            {
+                if (rnd.NextDouble() < 0.5)
+                {
+
+                    if (chromosome[x].ToString() == "0")                  
+                    {
+                        MutatingGenom += 1;
+                    }
+                    else
+                    {
+                        MutatingGenom += 0;
+                    }
+                }
+                else
+                {
+                    MutatingGenom += chromosome[x];
+                }
+            }
+            return MutatingGenom;
+
         }
     }
 }
