@@ -48,24 +48,17 @@ namespace Genetic_alghoritm
                 Console.WriteLine(item.Points);
             }
             //
-            var sr = 0;
-            for (int i = 0; i < 10; i++) // 10 populacji
+            //var sr = 0;
+            for (int i = 0; i < 100; i++) // 10 populacji
             {
                 var ListOfBestParents = children;
                 var NewPopulation = childGenerator.GenerateChildren(ListOfBestParents).ToList();
                 childGenerator.CompariseToPattern(NewPopulation);
                 var top5 = NewPopulation.OrderByDescending(x => x.Points).Take(5).ToList();
-                foreach (var item in top5)
-                {
-                    sr += item.Points;
-                    Console.WriteLine(item.Points);
-                    Console.WriteLine(item.Name);
-                }
-                Console.WriteLine("//");
                 children = top5;
+                Console.WriteLine(children[0].Points);
+                Console.WriteLine("//");
             }
-            sr = sr / 50;
-            Console.WriteLine(sr);
         }
     }
 
@@ -132,42 +125,85 @@ namespace Genetic_alghoritm
         }
         public IEnumerable<Parent> GenerateChildren(List<Parent> parents)
         {
-            for (int i = 0; i < 50; i++) //Wiele razy powtórzyć
+            for (int i = 0; i < 200; i++) //Wiele razy powtórzyć
             {
-                yield return new Parent { Name = GenerateChildName(parents) };
+                yield return new Parent { Name = GenerateChildName(parents) }; //BUG POINTS!};
             }
         }
         public string GenerateChildName(List<Parent> parents)  //Krzyżowanie //Domyślnie 2 rodziców
         {
             //System prawdopodobieństwa krzyżowania najlepszych (najwięcej punktów)
-            string[] probabiltyStrings = new string[parents.Count];
-            string allProbabilitiesStrings = "";
-            for (int i = 0; i < 5; i++)
-            {
-                for (int j = 0; j < parents[i].Points; j++)
-                {
-                    probabiltyStrings[i] += i;
-                }
-                allProbabilitiesStrings += probabiltyStrings[i];
-            }
+            //string[] probabiltyStrings = new string[parents.Count];
+            //string allProbabilitiesStrings = "";
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    for (int j = 0; j < parents[i].Points; j++)
+            //    {
+            //        probabiltyStrings[i] += i;
+            //    }
+            //    allProbabilitiesStrings += probabiltyStrings[i];
+            //}
             //Losowa z fitnessem
             string name = "";
             Random rnd2 = new Random();
             int crossingPoint = rnd2.Next(0, LettersCount);
             //First parent
-            var Parent1 = ChoseParentToReproduce(allProbabilitiesStrings, parents);
+            //5 rodziców to stanowczo za mało! Każdemu trzeba dać szanse się rozmnożyć
+            //Losowo wylosować 10 osobników.
+            //Kandydaci na rodziców : 2 x po 5 wylosować.
+            //Z 1 piątki najlepszy fitness = parent.
+            //Z 2 piątki najlepszy fitness = patent.
+            var orderedParents = parents.OrderByDescending(x => x.Points).ToList(); //Fitness
+            var Parent1 = orderedParents.Select(x=>x).FirstOrDefault(); //Pierwszy najlepszy
             string FirstGenom = Parent1.Name.Substring(1, crossingPoint);
             string FirstGenomMutated = Mutation(FirstGenom);
-            //Second parent
-            var Parent2 = ChoseParentToReproduce(allProbabilitiesStrings, parents); 
-            while (CheckParentsAreTheSame(Parent1, Parent2))
-            {
-                Parent2 = ChoseParentToReproduce(allProbabilitiesStrings, parents);
-            }
+            //string pattern = "100110010110011001011001100101100110010110011001011001100101100110010110011001011001100101100110010110100011001010101101";
+            //var patternCut = pattern.Substring(1, FirstGenom.Length);
+            //int points = 0;
+            //for (int i = 0; i < patternCut.Length; i++)
+            //{
+            //        if (FirstGenom[i] == patternCut[i])
+            //        {
+            //        points++;
+            //        }
+            //}
+            //Console.WriteLine($"Scored: {points}/{patternCut.Length}" );
+            Random rndParent = new Random();
+            var Parent2 = parents[rndParent.Next(0, 5)];
             string SecondGenom = Parent2.Name.Substring(crossingPoint);
             string SecondGenomMutation = Mutation(SecondGenom);
             name = FirstGenomMutated + SecondGenomMutation;
             return name;
+
+
+            //string[] probabiltyStrings = new string[parents.Count];
+            //string allProbabilitiesStrings = "";
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    for (int j = 0; j < parents[i].Points; j++)
+            //    {
+            //        probabiltyStrings[i] += i;
+            //    }
+            //    allProbabilitiesStrings += probabiltyStrings[i];
+            //}
+            ////Losowa z fitnessem
+            //string name = "";
+            //Random rnd2 = new Random();
+            //int crossingPoint = rnd2.Next(0, LettersCount);
+            ////First parent
+            //var Parent1 = ChoseParentToReproduce(allProbabilitiesStrings, parents);
+            //string FirstGenom = Parent1.Name.Substring(1, crossingPoint);
+            //string FirstGenomMutated = Mutation(FirstGenom);
+            ////Second parent
+            //var Parent2 = ChoseParentToReproduce(allProbabilitiesStrings, parents); 
+            //while (CheckParentsAreTheSame(Parent1, Parent2))
+            //{
+            //    Parent2 = ChoseParentToReproduce(allProbabilitiesStrings, parents);
+            //}
+            //string SecondGenom = Parent2.Name.Substring(crossingPoint);
+            //string SecondGenomMutation = Mutation(SecondGenom);
+            //name = FirstGenomMutated + SecondGenomMutation;
+            //return name;
 
             //Losowa bez uwzgl. fitness'u
             //string name = "";
@@ -227,7 +263,7 @@ namespace Genetic_alghoritm
             string MutatingGenom = "";
             for (int x = 0; x < chromosome.Length; x++)
             {
-                if (rnd.NextDouble() < 0.5)
+                if (rnd.NextDouble() < 0.9)
                 {
 
                     if (chromosome[x].ToString() == "0")                  
