@@ -7,8 +7,7 @@ namespace NSGA_III
     {
         static void Main(string[] args)
         {
-
-                    protected int iterations;
+        protected int iterations;
         protected int maxIterations;
         //protected SolutionListEvaluator evaluator; //Klasa?
         protected int numberOfDivisions;
