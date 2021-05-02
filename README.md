@@ -21,6 +21,13 @@ GET /movies/:id //Gets specified movie by type
 
 4. The response should contain appropriate response code and the instruction how to solve the error.
 The most common ones are:
+1XX-level (Informational) — Server acknowledges a request
+2XX-level (Success) — Server completed the request as expected
+3XX-level (Redirection) — Client needs to perform further actions to complete the request
+4XX-level (Client error) — Client sent an invalid request
+5XX-level (Server error) — Server failed to fulfill a valid request due to an error with server
+
+For example:
 200 OK
 304 Not modified
 400 Bad Request
