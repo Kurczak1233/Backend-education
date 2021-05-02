@@ -14,3 +14,9 @@ instead of naming like:
 
 It is highly advisable to use nouns rather than verbs.
 For the same reason, we should use plural nouns names than singular ones.
+
+3. To differentiate funcionality of request we should use functions with parameters like:
+GET /movies //Gets the collection
+GET /movies/:id //Gets specified movie by type
+ 
+ 
